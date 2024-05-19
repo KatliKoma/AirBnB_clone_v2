@@ -2,38 +2,37 @@
 """Script to start a Flask web application with four view functions, including a function with a default variable value."""
 
 from flask import Flask
-
-
 app = Flask(__name__)
-app.url_map.strict_slashes = False
 
 
-@app.route('/')
-def hello_world():
-    """ Returns some text. """
+@app.route('/', strict_slashes=False)
+def hello_holberton():
+    """Returns a string at the root route"""
     return 'Hello HBNB!'
 
 
-@app.route('/hbnb')
-def hello():
-    """ Return other text. """
+@app.route('/hbnb', strict_slashes=False)
+def hbnb():
+    """Returns a string at the /hbnb route"""
     return 'HBNB'
 
 
-@app.route('/c/<text>')
-def c_text(text):
-    """ replace text with variable. """
-    text = text.replace('_', ' ')
-    return 'C {}'.format(text)
+@app.route('/c/<text>', strict_slashes=False)
+def cisfun(text):
+    """Returns a string at the /c/<text> route,
+    expands the <text> variable"""
+    new = text.replace('_', ' ')
+    return 'C %s' % new
 
 
-@app.route('/python/')
-@app.route('/python/<text>')
-def python_text(text='is cool'):
-    """ replace more text with another variable. """
-    text = text.replace('_', ' ')
-    return 'Python {}'.format(text)
+@app.route('/python', defaults={'text': 'is cool'}, strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
+def pythoniscool(text):
+    """Returns a string at the /python route, with a default text
+    of 'is cool', or the expansion of <text>"""
+    new = text.replace('_', ' ')
+    return 'Python %s' % new
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0')
