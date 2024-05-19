@@ -2,33 +2,44 @@
 """Script to start a Flask web application with four view functions, including a function with a default variable value."""
 
 from flask import Flask
+from os import environ
+
 app = Flask(__name__)
+environ['FLASK_ENV'] = 'development'
 
 
 @app.route('/', strict_slashes=False)
-def hello_hbnb():
-    """Handles the root url"""
+def index():
+    """Test method to output simple greeting on localhost port 5000,
+    `/` path.
+    """
     return 'Hello HBNB!'
 
 
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    """Handles hbnb route"""
+    """Test method to output simple message on localhost port 5000,
+    `/hbnb` path.
+    """
     return 'HBNB'
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def c_text(text):
-    """Handles /c/<text> route"""
-    return 'C {}'.format(text.replace('_', ' '))
+def c_subpath(text):
+    """Test method to output simple message on localhost port 5000,
+    `/c/` path, converting subpaths into message text.
+    """
+    return ' '.join(['C', text.replace('_', ' ')])
 
 
-@app.route('/python', defaults={'text': 'is cool'}, strict_slashes=False)
+@app.route('/python/', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def python_text(text):
-    """Handles /python/<text> route"""
-    return 'Python {}'.format(text.replace('_', ' '))
+def python_subpath(text='is cool'):
+    """Test method to output simple message on localhost port 5000,
+    `/python/` path, converting subpaths into message text.
+    """
+    return ' '.join(['Python', text.replace('_', ' ')])
 
 
 if __name__ == '__main__':
-    app.run("0.0.0.0", 5000)
+    app.run(host='0.0.0.0', port='5000')
